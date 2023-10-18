@@ -44,16 +44,6 @@ export async function deleteUser(params: { clerkId: string }) {
       throw new Error("User not found");
     }
 
-    // delete everything that user have ever done (questions,answers ...):
-
-    // const userQuestionIds = await Question.find({ author: user._id }).distinct(
-    //  "_id"
-    // );
-
-    // delete user cart:
-
-    // TODO: delte user answers...
-
     const deletedUser = await User.findByIdAndDelete(user._id);
 
     return deletedUser;
