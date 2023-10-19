@@ -1,7 +1,23 @@
+"use server";
+
 import User from "@/database/user.model";
 import { connectToDatabase } from "../mongo";
 import { revalidatePath } from "next/cache";
 
+export async function getUserById(params: any) {
+  try {
+    connectToDatabase();
+
+    const { userId } = params;
+
+    const user = await User.findOne({ clerkId: userId });
+
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 export async function createUser(userParams: any) {
   try {
     connectToDatabase();
@@ -53,4 +69,21 @@ export async function deleteUser(params: { clerkId: string }) {
   }
 }
 
-export async function getUserInfo(params: { clerkId: string | null }) {}
+export async function getUserInfo(params: { clerkId: string | null }) {
+  try {
+    connectToDatabase();
+
+    const { clerkId } = params;
+
+    const user = await User.findOne({ clerkId });
+
+    if (!user) {
+      return null;
+    }
+
+    return { user };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
