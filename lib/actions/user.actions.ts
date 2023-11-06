@@ -48,7 +48,7 @@ export async function updateUser(params: any) {
   }
 }
 
-export async function deleteUser(params: { clerkId: string }) {
+export async function deleteUser(params: { clerkId: string | undefined }) {
   try {
     connectToDatabase();
 

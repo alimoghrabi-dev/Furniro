@@ -5,6 +5,11 @@
 :root {
   margin: auto;
   padding: auto;
+  background: #e7e7e7;
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 
 @layer base {

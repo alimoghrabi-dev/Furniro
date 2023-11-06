@@ -1,35 +1,49 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
-const images = ["hero-bg.jpg", "hero-bg-2.jpg", "hero-bg-3.jpg"];
+const images = [
+  {
+    id: "1",
+    imgUrl: "/images/hero-bg.jpg",
+  },
+  {
+    id: "2",
+    imgUrl: "/images/hero-bg-2.jpg",
+  },
+  {
+    id: "3",
+    imgUrl: "/images/hero-bg-3.jpg",
+  },
+];
 
 const HeroSec = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 10000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="relative h-[92.5vh] w-full flex justify-end items-center">
-      <div className="absolute inset-0 w-full h-full transition-opacity">
-        {images.map((image, index) => (
-          <div
-            key={image}
-            className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity shadow-md ${
-              currentImageIndex === index ? "opacity-100" : "opacity-0"
-            }`}
-            style={{
-              backgroundImage: `url(/images/${image})`,
-            }}
-          />
-        ))}
+      <div className="absolute inset-0 w-full h-[590px] transition-opacity">
+        <Carousel
+          showThumbs={false}
+          autoPlay
+          infiniteLoop
+          interval={8000}
+          showArrows={false}
+          showStatus={false}
+          showIndicators={false}>
+          {images.map((image) => (
+            <Image
+              key={image.id}
+              src={image.imgUrl}
+              alt={image.id}
+              width={1800}
+              height={1800}
+              className={`shadow-lg w-full h-[590px] object-cover`}
+            />
+          ))}
+        </Carousel>
+        <div className="absolute bottom-0 left-0 w-full h-[225px] bg-gradient-to-b opacity-50 from-transparent to-black shadow-xl" />
       </div>
 
       <div className="z-40 px-8 md:px-16 lg:px-24">
@@ -43,8 +57,8 @@ const HeroSec = () => {
           <p className="pt-1.5 text-[12px] sm:text-sm font-normal text-dark">
             It reveals its elegance, the pleasure of the work itself.
           </p>
-          <Button className="bg-baseColor uppercase text-sm font-medium p-1 px-4 sm:px-5 py-5 sm:py-6 mt-7 rounded-md hover:bg-baseColor/90">
-            but now
+          <Button className="bg-baseColor border border-baseColor uppercase text-sm font-semibold p-1 px-4 sm:px-5 py-5 sm:py-6 mt-7 rounded-sm hover:bg-transparent hover:text-baseColor">
+            buy now
           </Button>
         </div>
       </div>

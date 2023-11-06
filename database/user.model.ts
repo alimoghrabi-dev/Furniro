@@ -6,8 +6,8 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password?: string;
-  bio?: string;
   picture: string;
+  cart: Schema.Types.ObjectId[];
   saved: Schema.Types.ObjectId[];
   joinedAt: Date;
 }
@@ -34,16 +34,21 @@ const userSchema = new Schema({
   password: {
     type: String,
   },
-  bio: {
-    type: String,
-  },
   picture: {
     type: String,
   },
+  cart: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
+    },
+  ],
   saved: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Question",
+      ref: "Product",
+      required: true,
     },
   ],
   joinedAt: {

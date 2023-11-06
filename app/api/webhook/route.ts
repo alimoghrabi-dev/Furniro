@@ -1,15 +1,11 @@
-/* eslint-disable camelcase */
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 import { NextResponse } from "next/server";
-import { createUser, updateUser, deleteUser } from "@/lib/actions/user.actions";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-
-  // TODO: Add your secret
-
   const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
@@ -55,39 +51,41 @@ export async function POST(req: Request) {
   }
 
   // Get the ID and type
-  // const { id } = evt.data;
+  const { id } = evt.data;
   const eventType = evt.type;
 
-  if (eventType === "user.created") {
+  if (eventType == "user.created") {
     const { id, email_addresses, image_url, username, first_name, last_name } =
       evt.data;
 
-    // Create a new user in your database:
     const mongoUser = await createUser({
       clerkId: id,
-      name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
+      name: `${first_name}${last_name ? " " + last_name : ""}`,
       username: username!,
       email: email_addresses[0].email_address,
       picture: image_url,
     });
 
+    window.location.reload();
+
     return NextResponse.json({
       message: "OK",
       user: mongoUser,
     });
-  } else if (eventType === "user.updated") {
+  }
+  if (eventType == "user.updated") {
     const { id, email_addresses, image_url, username, first_name, last_name } =
       evt.data;
 
-    // Create a new user in your database:
     const mongoUser = await updateUser({
       clerkId: id,
       updateData: {
-        name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
+        name: `${first_name}${last_name ? " " + last_name : ""}`,
         username: username!,
         email: email_addresses[0].email_address,
         picture: image_url,
       },
+      path: "/",
     });
 
     return NextResponse.json({
@@ -96,20 +94,15 @@ export async function POST(req: Request) {
     });
   }
 
-  if (eventType === "user.deleted") {
+  if (eventType == "user.deleted") {
     const { id } = evt.data;
 
-    const deletedUser = await deleteUser({
-      clerkId: id!,
-    });
+    const deletedUser = await deleteUser({ clerkId: id });
 
     return NextResponse.json({
       message: "OK",
       user: deletedUser,
     });
   }
-
-  return NextResponse.json({
-    message: "OK",
-  });
+  return NextResponse.json("OK", { status: 201 });
 }

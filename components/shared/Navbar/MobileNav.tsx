@@ -24,8 +24,8 @@ const MobileNav = () => {
             className="cursor-pointer"
           />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="shadow-md border-gray-300 border bg-gray-100">
-          <DropdownMenuItem className="flex flex-col gap-3.5 py-3">
+        <DropdownMenuContent className="shadow-md border-gray-300 border bg-gray-100 flex flex-col md:hidden">
+          <DropdownMenuItem className="flex md:hidden relative flex-col gap-3.5 py-3">
             {navLinks.map((link) => {
               return (
                 <NavLinkComp
@@ -38,7 +38,7 @@ const MobileNav = () => {
             })}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="w-full items-center justify-center gap-6 flex py-3.5">
+          <DropdownMenuItem className="w-full items-center justify-center gap-6 py-3.5">
             <RightNavSide customSize />
           </DropdownMenuItem>
         </DropdownMenuContent>

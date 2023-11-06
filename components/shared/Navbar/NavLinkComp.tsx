@@ -16,7 +16,7 @@ const NavLinkComp = ({ href, title, customClassName }: NavLinkCompProps) => {
 
   return (
     <Link
-      href={href}
+      href={`/${href}`}
       className={`capitalize ${
         customClassName ? "text-sm font-medium" : "text-base font-medium"
       }  transition-colors ${
