@@ -84,7 +84,8 @@ const SingleCartItem = ({
         <Trash
           onClick={() => {
             deleteProductFromCart(productId, userId, pathname);
-            setQuantity(1);
+            const cleanUrl = pathname.split("?")[0];
+            router.replace(cleanUrl);
           }}
           className="text-baseColor cursor-pointer"
         />
