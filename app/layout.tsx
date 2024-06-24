@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
-export const fontSans = FontSans({
+export const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
@@ -23,14 +23,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={fontSans.className}>
+      <body className={inter.className}>
         <ClerkProvider
           appearance={{
             elements: {
               formButtonPrimary: "primary-gradient",
               footerActionLink: "primary-text-gradient",
             },
-          }}>
+          }}
+        >
           {children}
         </ClerkProvider>
       </body>
