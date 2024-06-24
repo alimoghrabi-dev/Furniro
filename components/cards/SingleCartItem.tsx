@@ -82,7 +82,10 @@ const SingleCartItem = ({
         </select>
         <span>{formatPrice(ProductPrice * quantity)}</span>
         <Trash
-          onClick={() => deleteProductFromCart(productId, userId, pathname)}
+          onClick={() => {
+            deleteProductFromCart(productId, userId, pathname);
+            setQuantity(1);
+          }}
           className="text-baseColor cursor-pointer"
         />
       </div>
